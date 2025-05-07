@@ -5,7 +5,7 @@
             aria-hidden="true" id="iconSidenav"></i>
         <a class="align-items-center d-flex m-0 navbar-brand text-wrap" href="{{ route('dashboard') }}">
             <img src="../assets/img/logo-ct.png" class="navbar-brand-img h-100" alt="...">
-            <span class="ms-3 font-weight-bold">Soft UI Dashboard Laravel Livewire</span>
+            <span class="ms-3 font-weight-bold">Attendance Management System</span>
         </a>
     </div>
     <hr class="horizontal dark mt-0">
@@ -39,10 +39,10 @@
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
-
+<!-- 
             <li class="nav-item mt-2">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Laravel Examples</h6>
-            </li>
+            </li> -->
             <li class="nav-item">
                 <a class="nav-link {{ Route::currentRouteName() == 'user-profile' ? 'active' : '' }}"
                     href="{{ route('user-profile') }}">
@@ -85,7 +85,7 @@
                     <span class="nav-link-text ms-1">Employee Management</span>
                 </a>
             </li>
-
+<!-- 
             <li class="nav-item mt-2">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Example pages</h6>
             </li>
@@ -272,7 +272,7 @@
                 <a href="https://www.creative-tim.com/product/soft-ui-dashboard-pro-laravel-livewire"
                     class="btn btn-primary btn-md active px-5 text-white" target="_blank" role="button" aria-pressed="true">
                     Upgrade to PRO</a>
-            </li>
+            </li> -->
         </ul>
     </div>
     <div class="sidenav-footer mx-3 mt-3 pt-3">
