@@ -16,7 +16,9 @@ use App\Http\Livewire\Rtl;
 use App\Http\Livewire\EmployeeIndex;
 use App\Http\Livewire\EmployeeCreate;
 use App\Http\Livewire\EmployeeEdit;
-
+use App\Http\Livewire\Shift\Create;
+use App\Http\Livewire\Shift\Edit;
+use App\Http\Livewire\Shift\Index;
 use App\Http\Livewire\LaravelExamples\UserProfile;
 use App\Http\Livewire\LaravelExamples\UserManagement;
 
@@ -58,6 +60,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/employees', EmployeeIndex::class)->name('employee.index');
     Route::get('/employees/create', EmployeeCreate::class)->name('employee.create');
     Route::get('/employees/{id}/edit', EmployeeEdit::class)->name('employee.edit');
+    Route::prefix('shifts')->name('shifts.')->group(function () {
+        Route::get('/', Index::class)->name('index');
+        Route::get('/create', Create::class)->name('create');
+        Route::get('/{id}/edit', Edit::class)->name('edit');
+    });
 
 });
 
