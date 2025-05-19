@@ -70,6 +70,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/leave-types', LeaveTypeManager::class)->name('leave-types');
     Route::get('/leave-requests', LeaveRequestManager::class)->name('leave-requests');
     Route::get('/leave-balances', LeaveBalanceManager::class)->name('leave-balances');
+    Route::prefix('leave-allocations')->name('leave-allocations.')->group(function() {
+    Route::get('/', \App\Http\Livewire\MonthlyLeaveAllocation\Index::class)->name('index');
+    Route::get('/create', \App\Http\Livewire\MonthlyLeaveAllocation\Create::class)->name('create');
+    Route::get('/{allocation}/edit', \App\Http\Livewire\MonthlyLeaveAllocation\Edit::class)->name('edit');
+});
 
 });
 
