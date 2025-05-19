@@ -1,30 +1,29 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Livewire\Auth\ForgotPassword;
-use App\Http\Livewire\Auth\ResetPassword;
-use App\Http\Livewire\Auth\SignUp;
-use App\Http\Livewire\Auth\Login;
-use App\Http\Livewire\Dashboard;
-use App\Http\Livewire\Billing;
-use App\Http\Livewire\Profile;
-use App\Http\Livewire\Tables;
-use App\Http\Livewire\StaticSignIn;
-use App\Http\Livewire\StaticSignUp;
-use App\Http\Livewire\Rtl;
-use App\Http\Livewire\EmployeeIndex;
-use App\Http\Livewire\EmployeeCreate;
-use App\Http\Livewire\EmployeeEdit;
-use App\Http\Livewire\Shift\Create;
-use App\Http\Livewire\Shift\Edit;
-use App\Http\Livewire\Shift\Index;
-use App\Http\Livewire\LaravelExamples\UserProfile;
-use App\Http\Livewire\LaravelExamples\UserManagement;
-use App\Http\Livewire\LeaveTypeManager;
-use App\Http\Livewire\LeaveRequestManager;
-use App\Http\Livewire\LeaveBalanceManager;
-use Illuminate\Http\Request;
+use App\Http\Livewire\{
+    Auth\ForgotPassword,
+    Auth\ResetPassword,
+    Auth\SignUp,
+    Auth\Login,
+    Dashboard,
+    Billing,
+    Profile,
+    Tables,
+    StaticSignIn,
+    StaticSignUp,
+    Rtl,
+    EmployeeIndex,
+    EmployeeCreate,
+    EmployeeEdit,
+    LaravelExamples\UserProfile,
+    LaravelExamples\UserManagement,
+    LeaveTypeManager,
+    LeaveRequestManager,
+    LeaveBalanceManager
+};
+use App\Http\Livewire\Shift\{Create as ShiftCreate, Edit as ShiftEdit, Index as ShiftIndex};
+use App\Http\Livewire\MonthlyLeaveAllocation\{Index as AllocationIndex, Create as AllocationCreate, Edit as AllocationEdit};
 
 /*
 |--------------------------------------------------------------------------
@@ -37,44 +36,59 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/', function() {
-    return redirect('/login');
+// Authentication routes
+Route::middleware('guest')->group(function () {
+    Route::redirect('/', '/login');
+    Route::get('/sign-up', SignUp::class)->name('sign-up');
+    Route::get('/login', Login::class)->name('login');
+    Route::get('/login/forgot-password', ForgotPassword::class)->name('forgot-password');
+    Route::get('/reset-password/{id}', ResetPassword::class)
+        ->name('reset-password')
+        ->middleware('signed');
 });
 
-Route::get('/sign-up', SignUp::class)->name('sign-up');
-Route::get('/login', Login::class)->name('login');
-
-Route::get('/login/forgot-password', ForgotPassword::class)->name('forgot-password');
-
-Route::get('/reset-password/{id}',ResetPassword::class)->name('reset-password')->middleware('signed');
-
+// Authenticated routes
 Route::middleware('auth')->group(function () {
+    // Dashboard and profile
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
-    Route::get('/billing', Billing::class)->name('billing');
     Route::get('/profile', Profile::class)->name('profile');
+    
+    // Billing and tables
+    Route::get('/billing', Billing::class)->name('billing');
     Route::get('/tables', Tables::class)->name('tables');
+    
+    // Static pages
     Route::get('/static-sign-in', StaticSignIn::class)->name('sign-in');
     Route::get('/static-sign-up', StaticSignUp::class)->name('static-sign-up');
     Route::get('/rtl', Rtl::class)->name('rtl');
+    
+    // User management
     Route::get('/laravel-user-profile', UserProfile::class)->name('user-profile');
     Route::get('/laravel-user-management', UserManagement::class)->name('user-management');
-
-    Route::get('/employees', EmployeeIndex::class)->name('employee.index');
-    Route::get('/employees/create', EmployeeCreate::class)->name('employee.create');
-    Route::get('/employees/{id}/edit', EmployeeEdit::class)->name('employee.edit');
-    Route::prefix('shifts')->name('shifts.')->group(function () {
-        Route::get('/', Index::class)->name('index');
-        Route::get('/create', Create::class)->name('create');
-        Route::get('/{id}/edit', Edit::class)->name('edit');
+    
+    // Employee routes
+    Route::prefix('employees')->name('employee.')->group(function () {
+        Route::get('/', EmployeeIndex::class)->name('index');
+        Route::get('/create', EmployeeCreate::class)->name('create');
+        Route::get('/{id}/edit', EmployeeEdit::class)->name('edit');
     });
+    
+    // Shift routes
+    Route::prefix('shifts')->name('shifts.')->group(function () {
+        Route::get('/', ShiftIndex::class)->name('index');
+        Route::get('/create', ShiftCreate::class)->name('create');
+        Route::get('/{id}/edit', ShiftEdit::class)->name('edit');
+    });
+    
+    // Leave management
     Route::get('/leave-types', LeaveTypeManager::class)->name('leave-types');
     Route::get('/leave-requests', LeaveRequestManager::class)->name('leave-requests');
     Route::get('/leave-balances', LeaveBalanceManager::class)->name('leave-balances');
+    
+    // Leave allocations
     Route::prefix('leave-allocations')->name('leave-allocations.')->group(function() {
-    Route::get('/', \App\Http\Livewire\MonthlyLeaveAllocation\Index::class)->name('index');
-    Route::get('/create', \App\Http\Livewire\MonthlyLeaveAllocation\Create::class)->name('create');
-    Route::get('/{allocation}/edit', \App\Http\Livewire\MonthlyLeaveAllocation\Edit::class)->name('edit');
+        Route::get('/', AllocationIndex::class)->name('index');
+        Route::get('/create', AllocationCreate::class)->name('create');
+        Route::get('/{allocation}/edit', AllocationEdit::class)->name('edit');
+    });
 });
-
-});
-
