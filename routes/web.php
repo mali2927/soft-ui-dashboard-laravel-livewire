@@ -21,7 +21,9 @@ use App\Http\Livewire\Shift\Edit;
 use App\Http\Livewire\Shift\Index;
 use App\Http\Livewire\LaravelExamples\UserProfile;
 use App\Http\Livewire\LaravelExamples\UserManagement;
-
+use App\Http\Livewire\LeaveTypeManager;
+use App\Http\Livewire\LeaveRequestManager;
+use App\Http\Livewire\LeaveBalanceManager;
 use Illuminate\Http\Request;
 
 /*
@@ -65,6 +67,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/create', Create::class)->name('create');
         Route::get('/{id}/edit', Edit::class)->name('edit');
     });
+    Route::get('/leave-types', LeaveTypeManager::class)->name('leave-types');
+    Route::get('/leave-requests', LeaveRequestManager::class)->name('leave-requests');
+    Route::get('/leave-balances', LeaveBalanceManager::class)->name('leave-balances');
 
 });
 
