@@ -1,5 +1,5 @@
-<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3"
-    id="sidenav-main">
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 fixed-start" id="sidenav-main"
+    style="height: 100vh; margin: 0; border-radius: 0;">
     <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
             aria-hidden="true" id="iconSidenav"></i>
@@ -9,7 +9,8 @@
         </a>
     </div>
     <hr class="horizontal dark mt-0">
-    <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
+    <div class="collapse navbar-collapse w-auto h-100" id="sidenav-collapse-main"
+        style="height: calc(100% - 120px); overflow-y: auto;">
         <ul class="navbar-nav">
             <li class="nav-item pb-2">
                 <a class="nav-link {{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}"
@@ -142,5 +143,41 @@
             </li>
         </ul>
     </div>
-
 </aside>
+
+<style>
+    .sidenav {
+        height: 100vh !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        position: fixed;
+        z-index: 1031;
+    }
+
+    #sidenav-collapse-main {
+        height: calc(100% - 120px) !important;
+        overflow-y: auto;
+    }
+
+    .sidenav .navbar-nav {
+        flex-direction: column !important;
+    }
+
+    .sidenav .nav-item {
+        width: 100%;
+    }
+
+    .sidenav .nav-link {
+        padding: 0.75rem 1rem;
+    }
+
+    .sidenav .navbar-brand {
+        padding: 1.5rem 1rem;
+    }
+
+    .sidenav-header {
+        height: auto !important;
+    }
+</style>
