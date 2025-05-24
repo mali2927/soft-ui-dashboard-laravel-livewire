@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Authentication;
 use Livewire\WithPagination;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AuthenticationTable extends Component
 {
@@ -12,19 +13,16 @@ class AuthenticationTable extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    // Inputs bound to form fields
     public $searchEmpInput = '';
     public $directionFilterInput = '';
     public $dateFilterInput = '';
 
-    // Actual filters used for querying
     public $searchEmp = '';
     public $directionFilter = '';
     public $dateFilter = '';
 
     public function updated($propertyName)
     {
-        // Reset page only when actual filters change, not inputs
         if (in_array($propertyName, ['searchEmp', 'directionFilter', 'dateFilter'])) {
             $this->resetPage();
         }
@@ -51,6 +49,73 @@ class AuthenticationTable extends Component
 
         $this->resetPage();
     }
+
+public function exportCsv()
+{
+    $query = Authentication::query();
+
+    if ($this->searchEmp) {
+        $query->where(function ($q) {
+            $q->where('emp_id', 'like', '%' . $this->searchEmp . '%')
+              ->orWhere('person_name', 'like', '%' . $this->searchEmp . '%');
+        });
+    }
+
+    if ($this->directionFilter) {
+        $query->where('direction', $this->directionFilter);
+    }
+
+    if ($this->dateFilter) {
+        $query->whereDate('authentication_date', $this->dateFilter);
+    }
+
+    // Set filename with timezone GMT+5 (Asia/Karachi)
+    $filename = now('Asia/Karachi')->format('Y-m-d_H-i-s') . '-authentication-logs.csv';
+
+    return response()->streamDownload(function () use ($query) {
+        $handle = fopen('php://output', 'w');
+
+        fputcsv($handle, [
+            'ID',
+            'Emp ID',
+            'DateTime',
+            'Date',
+            'Time',
+            'Direction',
+            'Device Name',
+            'Device Serial',
+            'Person Name',
+            'Card No',
+        ]);
+
+        $query->orderBy('authentication_datetime', 'desc')
+            ->chunk(1000, function ($authentications) use ($handle) {
+                foreach ($authentications as $auth) {
+                    fputcsv($handle, [
+                        $auth->id,
+                        $auth->emp_id,
+                        $auth->authentication_datetime,
+                        $auth->authentication_date,
+                        $auth->authentication_time,
+                        $auth->direction,
+                        $auth->device_name,
+                        $auth->device_serial_no,
+                        $auth->person_name,
+                        $auth->card_no,
+                    ]);
+                }
+            });
+
+        fclose($handle);
+    }, $filename, [
+        'Content-Type' => 'text/csv',
+        'Cache-Control' => 'no-store, no-cache',
+        'Pragma' => 'no-cache',
+        'Expires' => '0',
+    ]);
+}
+
+
 
     public function render()
     {

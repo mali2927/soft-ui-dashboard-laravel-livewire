@@ -16,9 +16,10 @@
         <div class="col-md-3">
             <input type="date" wire:model.defer="dateFilterInput" class="form-control" />
         </div>
-        <div class="col-md-2 d-flex gap-2">
-            <button wire:click="applyFilters" class="btn btn-primary flex-grow-1">Find</button>
-            <button wire:click="clearFilters" class="btn btn-secondary flex-grow-1">Clear</button>
+        <div class="col-md-2 d-flex gap-2 flex-wrap justify-content-end">
+            <button wire:click="applyFilters" class="btn btn-primary">Find</button>
+            <button wire:click="clearFilters" class="btn btn-secondary">Clear</button>
+            <button wire:click="exportCsv" class="btn btn-success">Export CSV</button>
         </div>
     </div>
 
