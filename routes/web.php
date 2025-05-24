@@ -22,6 +22,8 @@ use App\Http\Livewire\{
     LeaveRequestManager,
     LeaveBalanceManager
 };
+use App\Http\Livewire\AuthenticationTable;
+
 use App\Http\Livewire\Shift\{Create as ShiftCreate, Edit as ShiftEdit, Index as ShiftIndex};
 use App\Http\Livewire\MonthlyLeaveAllocation\{Index as AllocationIndex, Create as AllocationCreate, Edit as AllocationEdit};
 
@@ -80,6 +82,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}/edit', ShiftEdit::class)->name('edit');
     });
     
+    Route::get('/authentications', AuthenticationTable::class)->name('authentications.index');
+
     // Leave management
     Route::get('/leave-types', LeaveTypeManager::class)->name('leave-types');
     Route::get('/leave-requests', LeaveRequestManager::class)->name('leave-requests');
