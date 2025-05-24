@@ -1,6 +1,27 @@
 <div class="container mt-4">
     <h4 class="mb-3">Authentication Logs</h4>
 
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <input type="text" wire:model.defer="searchEmpInput" class="form-control"
+                placeholder="Search by Employee ID or Name">
+        </div>
+        <div class="col-md-3">
+            <select wire:model.defer="directionFilterInput" class="form-select">
+                <option value="">All Directions</option>
+                <option value="In">In</option>
+                <option value="Out">Out</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <input type="date" wire:model.defer="dateFilterInput" class="form-control" />
+        </div>
+        <div class="col-md-2 d-flex gap-2">
+            <button wire:click="applyFilters" class="btn btn-primary flex-grow-1">Find</button>
+            <button wire:click="clearFilters" class="btn btn-secondary flex-grow-1">Clear</button>
+        </div>
+    </div>
+
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
             <thead class="table-dark">
