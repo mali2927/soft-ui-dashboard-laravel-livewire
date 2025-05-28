@@ -1,127 +1,238 @@
-<section>
-    <div class="page-header section-height-75">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-6 col-lg-7 col-md-8 d-flex flex-column mx-auto">
-                    <div class="card card-plain mt-4">
-                        <div class="card-header pb-0 text-left bg-transparent">
-                            <h4 class="font-weight-bolder text-info text-gradient">Create Employee</h4>
-                            <p class="mb-0">Fill in the details below</p>
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-7">
+                <div class="card shadow-lg border-0 rounded-lg overflow-hidden">
+                    <div class="card-header bg-primary text-white py-4">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h3 class="mb-0"><i class="bi bi-person-plus me-2"></i>Create New Employee</h3>
+                            <a href="{{ route('employee.index') }}" class="btn btn-sm btn-light">
+                                <i class="bi bi-arrow-left me-1"></i> Back
+                            </a>
                         </div>
-                        <div class="card-body">
-                            @if (session()->has('message'))
-                                <div class="alert alert-success">{{ session('message') }}</div>
-                            @endif
+                        <p class="mb-0 mt-2 opacity-75">Fill in all required details below</p>
+                    </div>
 
-                            <form wire:submit.prevent="save">
-                                <div class="mb-3">
-                                    <label>Biometric ID</label>
-                                    <input type="text" class="form-control" wire:model="biometric_id">
-                                    @error('biometric_id') <small class="text-danger">{{ $message }}</small> @enderror
+                    <div class="card-body p-5">
+                        @if (session()->has('message'))
+                            <div class="alert alert-success alert-dismissible fade show mb-4">
+                                <i class="bi bi-check-circle-fill me-2"></i> {{ session('message') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        @endif
+
+                        <form wire:submit.prevent="save" class="needs-validation" novalidate>
+                            <div class="row g-4">
+                                <!-- Personal Information Section -->
+                                <div class="col-12">
+                                    <h5 class="text-primary mb-4"><i class="bi bi-person-badge me-2"></i>Personal
+                                        Information</h5>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label>Name</label>
-                                    <input type="text" class="form-control" wire:model="name">
-                                    @error('name') <small class="text-danger">{{ $message }}</small> @enderror
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="biometric_id"
+                                            wire:model="biometric_id" placeholder=" " required>
+                                        <label for="biometric_id">Biometric ID</label>
+                                        @error('biometric_id')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label>CNIC</label>
-                                    <input type="text" class="form-control" wire:model="cnic">
-                                    @error('cnic') <small class="text-danger">{{ $message }}</small> @enderror
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="name" wire:model="name"
+                                            placeholder=" " required>
+                                        <label for="name">Full Name</label>
+                                        @error('name')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label>Date of Birth</label>
-                                    <input type="date" class="form-control" wire:model="date_of_birth">
-                                    @error('date_of_birth') <small class="text-danger">{{ $message }}</small> @enderror
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="cnic" wire:model="cnic"
+                                            placeholder=" " required>
+                                        <label for="cnic">CNIC</label>
+                                        @error('cnic')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label>Gender</label>
-                                    <select class="form-control" wire:model="gender">
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                    </select>
-                                    @error('gender') <small class="text-danger">{{ $message }}</small> @enderror
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="date" class="form-control" id="date_of_birth"
+                                            wire:model="date_of_birth" placeholder=" " required>
+                                        <label for="date_of_birth">Date of Birth</label>
+                                        @error('date_of_birth')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label>Contact Number</label>
-                                    <input type="number" class="form-control" wire:model="contact_number">
-                                    @error('contact_number') <small class="text-danger">{{ $message }}</small> @enderror
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="gender" wire:model="gender" required>
+                                            <option value="" selected disabled>Select Gender</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                        </select>
+                                        <label for="gender">Gender</label>
+                                        @error('gender')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label>Address</label>
-                                    <input type="text" class="form-control" wire:model="address">
-                                    @error('address') <small class="text-danger">{{ $message }}</small> @enderror
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="tel" class="form-control" id="contact_number"
+                                            wire:model="contact_number" placeholder=" " required>
+                                        <label for="contact_number">Contact Number</label>
+                                        @error('contact_number')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label>Emergency Contact</label>
-                                    <input type="number" class="form-control" wire:model="emergency_contact">
-                                    @error('emergency_contact') <small class="text-danger">{{ $message }}</small> @enderror
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="address" wire:model="address"
+                                            placeholder=" " required>
+                                        <label for="address">Address</label>
+                                        @error('address')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label>Department</label>
-                                    <input type="text" class="form-control" wire:model="department">
-                                    @error('department') <small class="text-danger">{{ $message }}</small> @enderror
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="tel" class="form-control" id="emergency_contact"
+                                            wire:model="emergency_contact" placeholder=" " required>
+                                        <label for="emergency_contact">Emergency Contact</label>
+                                        @error('emergency_contact')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label>Designation</label>
-                                    <input type="text" class="form-control" wire:model="designation">
-                                    @error('designation') <small class="text-danger">{{ $message }}</small> @enderror
+                                <!-- Employment Information Section -->
+                                <div class="col-12 mt-5">
+                                    <h5 class="text-primary mb-4"><i class="bi bi-briefcase me-2"></i>Employment
+                                        Information</h5>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label>Joining Date</label>
-                                    <input type="date" class="form-control" wire:model="joining_date">
-                                    @error('joining_date') <small class="text-danger">{{ $message }}</small> @enderror
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="department"
+                                            wire:model="department" placeholder=" " required>
+                                        <label for="department">Department</label>
+                                        @error('department')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label>Employment Status</label>
-                                    <select class="form-control" wire:model="employment_status">
-                                        <option value="Active">Active</option>
-                                        <option value="Inactive">Inactive</option>
-                                        <option value="Suspended">Suspended</option>
-                                    </select>
-                                    @error('employment_status') <small class="text-danger">{{ $message }}</small> @enderror
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="designation"
+                                            wire:model="designation" placeholder=" " required>
+                                        <label for="designation">Designation</label>
+                                        @error('designation')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label>Employment Type</label>
-                                    <input type="text" class="form-control" wire:model="employment_type">
-                                    @error('employment_type') <small class="text-danger">{{ $message }}</small> @enderror
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="date" class="form-control" id="joining_date"
+                                            wire:model="joining_date" placeholder=" " required>
+                                        <label for="joining_date">Joining Date</label>
+                                        @error('joining_date')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label>Base Salary</label>
-                                    <input type="number" step="0.01" class="form-control" wire:model="base_salary">
-                                    @error('base_salary') <small class="text-danger">{{ $message }}</small> @enderror
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="employment_status"
+                                            wire:model="employment_status" required>
+                                            <option value="" selected disabled>Select Status</option>
+                                            <option value="Active">Active</option>
+                                            <option value="Inactive">Inactive</option>
+                                            <option value="Suspended">Suspended</option>
+                                        </select>
+                                        <label for="employment_status">Employment Status</label>
+                                        @error('employment_status')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label>Bank Account Number</label>
-                                    <input type="number" class="form-control" wire:model="bank_account_number">
-                                    @error('bank_account_number') <small class="text-danger">{{ $message }}</small> @enderror
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="employment_type"
+                                            wire:model="employment_type" placeholder=" " required>
+                                        <label for="employment_type">Employment Type</label>
+                                        @error('employment_type')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label>Bank Name</label>
-                                    <input type="text" class="form-control" wire:model="bank_name">
-                                    @error('bank_name') <small class="text-danger">{{ $message }}</small> @enderror
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="number" step="0.01" class="form-control" id="base_salary"
+                                            wire:model="base_salary" placeholder=" " required>
+                                        <label for="base_salary">Base Salary</label>
+                                        @error('base_salary')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
 
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-info w-100 mt-4 mb-0">Save Employee</button>
+                                <!-- Bank Information Section -->
+                                <div class="col-12 mt-5">
+                                    <h5 class="text-primary mb-4"><i class="bi bi-bank me-2"></i>Bank Information</h5>
                                 </div>
-                            </form>
-                        </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="bank_name"
+                                            wire:model="bank_name" placeholder=" " required>
+                                        <label for="bank_name">Bank Name</label>
+                                        @error('bank_name')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="bank_account_number"
+                                            wire:model="bank_account_number" placeholder=" " required>
+                                        <label for="bank_account_number">Account Number</label>
+                                        @error('bank_account_number')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="col-12 mt-5">
+                                    <button type="submit" class="btn btn-primary btn-lg w-100 py-3">
+                                        <i class="bi bi-save-fill me-2"></i> Save Employee Details
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
