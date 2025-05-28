@@ -7,6 +7,7 @@ use App\Models\Employee;
 use App\Models\SalaryAdjustment;
 use App\Models\LeaveBalance;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SalaryState extends Component
 {
@@ -55,6 +56,42 @@ class SalaryState extends Component
         // Calculate current salary
         $adjustmentsTotal = $this->adjustments->sum('amount');
         $this->currentSalary = $this->baseSalary + $adjustmentsTotal - $this->leaveDeductions;
+    }
+
+    public function downloadSalarySlip()
+    {
+        $data = [
+            'employee' => $this->employee,
+            'currentSalary' => $this->currentSalary,
+            'baseSalary' => $this->baseSalary,
+            'adjustments' => $this->adjustments,
+            'leaveDeductions' => $this->leaveDeductions,
+            'allowedLeaves' => $this->allowedLeaves,
+            'usedLeaves' => $this->usedLeaves,
+            'excessLeaves' => $this->excessLeaves,
+            'dailyRate' => $this->dailyRate,
+            'date' => now()->format('F d, Y'),
+            'companyName' => config('app.name'), // Add company name from config
+        ];
+
+        // Ensure all strings are properly encoded
+        array_walk_recursive($data, function (&$value) {
+            if (is_string($value)) {
+                $value = mb_convert_encoding($value, 'UTF-8', 'UTF-8');
+            }
+        });
+
+        $pdf = Pdf::loadView('salary.slip', $data);
+        
+        // Set PDF encoding explicitly
+        return response()->streamDownload(
+            fn () => print($pdf->output()),
+            'salary-slip-'.$this->employee->id.'-'.now()->format('Y-m').'.pdf',
+            [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'attachment; filename="salary-slip-'.$this->employee->id.'-'.now()->format('Y-m').'.pdf"',
+            ]
+        );
     }
 
     public function render()
