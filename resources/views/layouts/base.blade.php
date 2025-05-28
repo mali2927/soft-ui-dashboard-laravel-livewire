@@ -22,6 +22,9 @@
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('assets/css/soft-ui-dashboard.css?v=1') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-pap9Ar...==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     @livewireStyles
 </head>
 
@@ -47,4 +50,5 @@
     <script src="{{ asset('assets/js/soft-ui-dashboard.js') }}"></script>
     @livewireScripts
 </body>
+
 </html>
