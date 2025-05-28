@@ -33,6 +33,7 @@
                     <th>Date</th>
                     <th>Time</th>
                     <th>Direction</th>
+                    <th>Status</th>
                     <th>Device Name</th>
                     <th>Device Serial</th>
                     <th>Person Name</th>
@@ -48,6 +49,19 @@
                         <td>{{ $auth->authentication_date }}</td>
                         <td>{{ $auth->authentication_time }}</td>
                         <td>{{ $auth->direction }}</td>
+                        <td>
+                            @if ($auth->status === 'Late')
+                                <span class="badge bg-warning text-dark">
+                                    Late ({{ $auth->late_minutes }} mins)
+                                </span>
+                            @elseif($auth->status === 'Overtime')
+                                <span class="badge bg-success">
+                                    Overtime ({{ $auth->overtime_minutes }} mins)
+                                </span>
+                            @else
+                                <span class="badge bg-primary">Normal</span>
+                            @endif
+                        </td>
                         <td>{{ $auth->device_name }}</td>
                         <td>{{ $auth->device_serial_no }}</td>
                         <td>{{ $auth->person_name }}</td>
@@ -55,7 +69,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="10" class="text-center">No authentication records found.</td>
+                        <td colspan="11" class="text-center">No authentication records found.</td>
                     </tr>
                 @endforelse
             </tbody>
