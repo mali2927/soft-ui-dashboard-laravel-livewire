@@ -10,6 +10,7 @@ use App\Models\LeaveType;
 class LeaveBalanceManager extends Component
 {
     public $balances;
+    public $balance;
     public $employees;
     public $leaveTypes;
     public $employee_id, $leave_type_id, $allocated, $year;
@@ -64,6 +65,7 @@ class LeaveBalanceManager extends Component
 
     public function edit($id)
     {
+        $this->balance = LeaveBalance::with(['employee', 'leaveType'])->find($id);
         $balance = LeaveBalance::find($id);
         $this->currentId = $id;
         $this->employee_id = $balance->employee_id;
