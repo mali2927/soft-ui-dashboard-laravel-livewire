@@ -152,6 +152,28 @@
                     <span class="nav-link-text ms-1">Auth Logs</span>
                 </a>
             </li>
+            {{-- <li class="nav-item pb-2">
+                <a class="nav-link {{ request()->routeIs('salary.state') ? 'active' : '' }}"
+                    href="{{ route('salary.state', ['employee' => auth()->user()->employee ?? 1]) }}">
+                    <div
+                        class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i
+                            class="fas fa-money-bill-wave {{ request()->routeIs('salary.state') ? 'text-white' : 'text-dark' }}"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Salary State</span>
+                </a>
+            </li> --}}
+            <li class="nav-item pb-2">
+                <a class="nav-link {{ request()->routeIs('employee.salaries') ? 'active' : '' }}"
+                    href="{{ route('employee.salaries') }}">
+                    <div
+                        class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i
+                            class="fas fa-money-bill-wave {{ request()->routeIs('employee.salaries') ? 'text-white' : 'text-dark' }}"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Employee Salaries</span>
+                </a>
+            </li>
 
         </ul>
     </div>

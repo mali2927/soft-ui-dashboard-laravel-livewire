@@ -23,6 +23,10 @@ use App\Http\Livewire\{
     LeaveBalanceManager
 };
 use App\Http\Livewire\AuthenticationTable;
+use App\Http\Livewire\SalaryState;
+use App\Models\Employee;
+use App\Http\Livewire\EmployeeSalaryList;
+
 
 use App\Http\Livewire\Shift\{Create as ShiftCreate, Edit as ShiftEdit, Index as ShiftIndex};
 use App\Http\Livewire\MonthlyLeaveAllocation\{Index as AllocationIndex, Create as AllocationCreate, Edit as AllocationEdit};
@@ -83,6 +87,11 @@ Route::middleware('auth')->group(function () {
     });
     
     Route::get('/authentications', AuthenticationTable::class)->name('authentications.index');
+    Route::get('/employees/{employee}/salary-state', SalaryState::class)
+        ->name('salary.state');
+    Route::get('/employee-salaries', EmployeeSalaryList::class)->name('employee.salaries');
+
+
 
     // Leave management
     Route::get('/leave-types', LeaveTypeManager::class)->name('leave-types');
