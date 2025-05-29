@@ -19,10 +19,10 @@
                 <div class="col-auto my-auto">
                     <div class="h-100">
                         <h5 class="mb-1">
-                            {{ __('Alec Thompson') }}
+                            {{ $user->name }}
                         </h5>
                         <p class="mb-0 font-weight-bold text-sm">
-                            {{ __(' CEO / Co-Founder') }}
+                            {{ $user->email }}
                         </p>
                     </div>
                 </div>
@@ -32,8 +32,9 @@
                             <li class="nav-item">
                                 <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="tab" href="javascript:;"
                                     role="tab" aria-controls="overview" aria-selected="true">
-                                    <svg class="text-dark" width="16px" height="16px" viewBox="0 0 42 42" version="1.1"
-                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <svg class="text-dark" width="16px" height="16px" viewBox="0 0 42 42"
+                                        version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none"
                                             fill-rule="evenodd">
                                             <g id="Rounded-Icons" transform="translate(-2319.000000, -291.000000)"
@@ -59,10 +60,11 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab"
-                                    aria-controls="teams" aria-selected="false">
-                                    <svg class="text-dark" width="16px" height="16px" viewBox="0 0 40 44" version="1.1"
-                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;"
+                                    role="tab" aria-controls="teams" aria-selected="false">
+                                    <svg class="text-dark" width="16px" height="16px" viewBox="0 0 40 44"
+                                        version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <title>document</title>
                                         <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none"
                                             fill-rule="evenodd">
@@ -86,10 +88,11 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab"
-                                    aria-controls="dashboard" aria-selected="false">
-                                    <svg class="text-dark" width="16px" height="16px" viewBox="0 0 40 40" version="1.1"
-                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;"
+                                    role="tab" aria-controls="dashboard" aria-selected="false">
+                                    <svg class="text-dark" width="16px" height="16px" viewBox="0 0 40 40"
+                                        version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <title>settings</title>
                                         <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none"
                                             fill-rule="evenodd">
@@ -131,11 +134,12 @@
             <div class="card-body pt-4 p-3">
 
                 @if ($showDemoNotification)
-                    <div wire:model.live="showDemoNotification" class="mt-3  alert alert-primary alert-dismissible fade show"
-                        role="alert">
+                    <div wire:model.live="showDemoNotification"
+                        class="mt-3  alert alert-primary alert-dismissible fade show" role="alert">
                         <span class="alert-text text-white">
                             {{ __('You are in a demo version, you can\'t update the profile.') }}</span>
-                        <button wire:click="$set('showDemoNotification', false)" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        <button wire:click="$set('showDemoNotification', false)" type="button" class="btn-close"
+                            data-bs-dismiss="alert" aria-label="Close">
                         </button>
                     </div>
                 @endif
@@ -146,7 +150,8 @@
                         <span class="alert-icon text-white"><i class="ni ni-like-2"></i></span>
                         <span
                             class="alert-text text-white">{{ __('Your profile information have been successfuly saved!') }}</span>
-                        <button wire:click="$set('showSuccesNotification', false)" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        <button wire:click="$set('showSuccesNotification', false)" type="button" class="btn-close"
+                            data-bs-dismiss="alert" aria-label="Close">
                         </button>
                     </div>
                 @endif
@@ -157,10 +162,12 @@
                             <div class="form-group">
                                 <label for="user-name" class="form-control-label">{{ __('Full Name') }}</label>
                                 <div class="@error('user.name')border border-danger rounded-3 @enderror">
-                                    <input wire:model.live="user.name" class="form-control" type="text" placeholder="Name"
-                                        id="user-name">
+                                    <input wire:model.live="user.name" class="form-control" type="text"
+                                        placeholder="Name" id="user-name">
                                 </div>
-                                @error('user.name') <div class="text-danger">{{ $message }}</div> @enderror
+                                @error('user.name')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -170,7 +177,9 @@
                                     <input wire:model.live="user.email" class="form-control" type="email"
                                         placeholder="@example.com" id="user-email">
                                 </div>
-                                @error('user.email') <div class="text-danger">{{ $message }}</div> @enderror
+                                @error('user.email')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -182,7 +191,9 @@
                                     <input wire:model.live="user.phone" class="form-control" type="tel"
                                         placeholder="40770888444" id="phone">
                                 </div>
-                                @error('user.phone') <div class="text-danger">{{ $message }}</div> @enderror
+                                @error('user.phone')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -192,7 +203,9 @@
                                     <input wire:model.live="user.location" class="form-control" type="text"
                                         placeholder="Location" id="name">
                                 </div>
-                                @error('user.location') <div class="text-danger">{{ $message }}</div> @enderror
+                                @error('user.location')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -202,10 +215,13 @@
                             <textarea wire:model.live="user.about" class="form-control" id="about" rows="3"
                                 placeholder="Say something about yourself"></textarea>
                         </div>
-                        @error('user.about') <div class="text-danger">{{ $message }}</div> @enderror
+                        @error('user.about')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn bg-gradient-dark btn-md mt-4 mb-4">{{ 'Save Changes' }}</button>
+                        <button type="submit"
+                            class="btn bg-gradient-dark btn-md mt-4 mb-4">{{ 'Save Changes' }}</button>
                     </div>
                 </form>
 

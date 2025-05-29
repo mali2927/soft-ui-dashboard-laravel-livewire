@@ -1,12 +1,12 @@
 <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3  navbar-transparent mt-4">
     <div class="container">
-        <a class="navbar-brand d-flex flex-column font-weight-bolder ms-lg-0 ms-3 text-white" href="{{ route('dashboard') }}">
+        <a class="navbar-brand d-flex flex-column font-weight-bolder ms-lg-0 ms-3 text-white"
+            href="{{ route('dashboard') }}">
             Soft UI Dashboard
             <span>Laravel Livewire</span>
         </a>
         <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false"
-            aria-label="Toggle navigation">
+            data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon mt-2">
                 <span class="navbar-toggler-bar bar1"></span>
                 <span class="navbar-toggler-bar bar2"></span>
@@ -31,7 +31,8 @@
                     </li>
                 @endif
                 <li class="nav-item">
-                    <a class="nav-link text-white me-2" href="{{ auth()->user() ? route('static-sign-up') : route('sign-up') }}">
+                    <a class="nav-link text-white me-2"
+                        href="{{ auth()->user() ? route('static-sign-up') : route('sign-up') }}">
                         <i class="fas fa-user-circle opacity-6  me-1"></i>
                         Sign Up
                     </a>
@@ -43,12 +44,12 @@
                     </a>
                 </li>
             </ul>
-            <ul class="navbar-nav d-lg-block d-none">
+            {{-- <ul class="navbar-nav d-lg-block d-none">
                 <li class="nav-item">
                     <a href="https://www.creative-tim.com/product/soft-ui-dashboard-laravel-livewire"
                         class="btn btn-sm btn-round mb-0 me-1 bg-gradient-light" target="_blank">Free download</a>
                 </li>
-            </ul>
+            </ul> --}}
         </div>
     </div>
 </nav>
