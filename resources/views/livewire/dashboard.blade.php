@@ -178,6 +178,9 @@
             <div class="card h-100">
                 <div class="card-header pb-0">
                     <h6>Salary Statistics</h6>
+                    <button wire:click="downloadAllSalarySlips" class="btn btn-sm btn-primary">
+                        <i class="ni ni-cloud-download-95"></i> Download All Slips
+                    </button>
                 </div>
                 <div class="card-body p-3">
                     <div class="timeline timeline-one-side">
