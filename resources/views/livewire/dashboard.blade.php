@@ -188,7 +188,7 @@
                             <div class="timeline-content">
                                 <h6 class="text-dark text-sm font-weight-bold mb-0">Total Monthly Salary</h6>
                                 <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
-                                    ${{ number_format($salaryStats['total_monthly'], 2) }}</p>
+                                    PKR {{ number_format($salaryStats['total_monthly'], 2) }}</p>
                             </div>
                         </div>
                         <div class="timeline-block mb-3">
@@ -198,7 +198,7 @@
                             <div class="timeline-content">
                                 <h6 class="text-dark text-sm font-weight-bold mb-0">Average Salary</h6>
                                 <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
-                                    ${{ number_format($salaryStats['average'], 2) }}</p>
+                                    PKR {{ number_format($salaryStats['average'], 2) }}</p>
                             </div>
                         </div>
                         <div class="timeline-block mb-3">
@@ -208,7 +208,7 @@
                             <div class="timeline-content">
                                 <h6 class="text-dark text-sm font-weight-bold mb-0">Highest Salary</h6>
                                 <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
-                                    ${{ number_format($salaryStats['highest'], 2) }}</p>
+                                    PKR {{ number_format($salaryStats['highest'], 2) }}</p>
                             </div>
                         </div>
                         <div class="timeline-block">
@@ -218,7 +218,7 @@
                             <div class="timeline-content">
                                 <h6 class="text-dark text-sm font-weight-bold mb-0">Lowest Salary</h6>
                                 <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
-                                    ${{ number_format($salaryStats['lowest'], 2) }}</p>
+                                    PKR {{ number_format($salaryStats['lowest'], 2) }}</p>
                             </div>
                         </div>
                     </div>
