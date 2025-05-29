@@ -37,33 +37,39 @@ class Edit extends Component
         'selectedEmployees' => 'array',
     ];
 
-    public function update()
-    {
-        $this->validate();
+public function update()
+{
+    $this->validate();
 
-        $shift = Shift::findOrFail($this->shiftId);
+    $shift = Shift::findOrFail($this->shiftId);
 
-        $shift->update([
-            'name' => $this->name,
-            'start_time' => $this->start_time,
-            'end_time' => $this->end_time,
-            'break_start' => $this->break_start,
-            'break_end' => $this->break_end,
-            'is_night_shift' => $this->is_night_shift,
-            'description' => $this->description,
-        ]);
+    $shift->update([
+        'name' => $this->name,
+        'start_time' => $this->start_time,
+        'end_time' => $this->end_time,
+        'break_start' => $this->break_start,
+        'break_end' => $this->break_end,
+        'is_night_shift' => $this->is_night_shift,
+        'description' => $this->description,
+    ]);
 
-           foreach ($this->selectedEmployees as $employeeId) {
-        $shift->employees()->attach($employeeId, [
+    // Sync employees with pivot data
+    $employeeData = [];
+    foreach ($this->selectedEmployees as $employeeId) {
+        $employeeData[$employeeId] = [
             'effective_from' => now(),
             'effective_to' => null,
             'is_active' => true,
-        ]);
+        ];
     }
+    
+    // This will detach any employees not in selectedEmployees
+    // and update the pivot data for those that are attached
+    $shift->employees()->sync($employeeData);
 
-        session()->flash('success', 'Shift updated successfully.');
-        return redirect()->route('shifts.index');
-    }
+    session()->flash('success', 'Shift updated successfully.');
+    return redirect()->route('shifts.index');
+}
 
     public function render()
     {
