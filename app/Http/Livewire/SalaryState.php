@@ -43,6 +43,7 @@ class SalaryState extends Component
             ->whereYear('created_at', $currentYear)
             ->first();
             
+        $this->allowedLeaves = $leaveBalance ? $leaveBalance->allocated : 4;
         $this->usedLeaves = $leaveBalance ? $leaveBalance->used : 0;
         $this->excessLeaves = max(0, $this->usedLeaves - $this->allowedLeaves);
         $this->leaveDeductions = $this->excessLeaves * $this->dailyRate;
