@@ -1,4 +1,37 @@
 <div class="container-fluid py-4">
+
+    <style>
+        .form-floating label {
+            padding-left: 2.5rem;
+        }
+
+        .form-control,
+        .form-select {
+            padding-left: 3rem;
+        }
+
+        .form-floating>.bi,
+        .form-control~.bi {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 5;
+        }
+
+        .form-select {
+            background-image: none;
+            padding-left: 1rem;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(var(--bs-primary-rgb), 0.05);
+        }
+
+        .badge {
+            font-weight: 500;
+        }
+    </style>
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="h4 mb-0 fw-bold text-primary">
             <i class="bi bi-calendar2-event me-2"></i>Manage Leave Requests
@@ -232,49 +265,16 @@
     </div>
 </div>
 
-@push('styles')
-    <style>
-        .form-floating label {
-            padding-left: 2.5rem;
-        }
 
-        .form-control,
-        .form-select {
-            padding-left: 3rem;
-        }
 
-        .form-floating>.bi,
-        .form-control~.bi {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 5;
-        }
 
-        .form-select {
-            background-image: none;
-            padding-left: 1rem;
-        }
 
-        .table-hover tbody tr:hover {
-            background-color: rgba(var(--bs-primary-rgb), 0.05);
-        }
-
-        .badge {
-            font-weight: 500;
-        }
-    </style>
-@endpush
-
-@push('scripts')
-    <script>
-        document.addEventListener('livewire:load', function() {
-            // Initialize tooltips
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl)
-            })
+<script>
+    document.addEventListener('livewire:load', function() {
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
         })
-    </script>
-@endpush
+    })
+</script>
