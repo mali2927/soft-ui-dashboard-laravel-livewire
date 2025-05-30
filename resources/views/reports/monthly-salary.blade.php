@@ -108,7 +108,7 @@
     </table>
 
     <div style="margin-top: 30px; font-size: 12px; text-align: right;">
-        Generated on: {{ now()->format('Y-m-d H:i:s') }}
+        <p>Generated on: {{ now()->setTimezone('Asia/Karachi')->format('Y-m-d H:i:s') }} (GMT+5)</p>
     </div>
 </body>
 
