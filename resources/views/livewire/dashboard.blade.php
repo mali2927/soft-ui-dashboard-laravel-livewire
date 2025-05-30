@@ -181,6 +181,9 @@
                     <button wire:click="downloadAllSalarySlips" class="btn btn-sm btn-primary">
                         <i class="ni ni-cloud-download-95"></i> Download All Slips
                     </button>
+                    <button wire:click="downloadMonthlySalaryReport" class="btn btn-sm btn-success">
+                        <i class="ni ni-collection"></i> Monthly Salary Report
+                    </button>
                 </div>
                 <div class="card-body p-3">
                     <div class="timeline timeline-one-side">

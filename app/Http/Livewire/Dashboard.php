@@ -66,6 +66,57 @@ public function downloadAllSalarySlips()
 
     return response()->download($path)->deleteFileAfterSend();
 }
+public function downloadMonthlySalaryReport()
+{
+    $employees = Employee::with(['salaryAdjustments'])
+                ->where('employment_status', 'active')
+                ->get()
+                ->map(function ($employee) {
+                    // Calculate total adjustments
+                    $totalBonus = $employee->salaryAdjustments->where('type', 'bonus')->sum('amount');
+                    $totalDeduction = $employee->salaryAdjustments->where('type', 'deduction')->sum('amount');
+                    $netSalary = $employee->base_salary + $totalBonus - $totalDeduction;
+                    
+                    return [
+                        'employee' => $employee,
+                        'base_salary' => $employee->base_salary,
+                        'bonus' => $totalBonus,
+                        'deduction' => $totalDeduction,
+                        'net_salary' => $netSalary
+                    ];
+                });
+
+    // Calculate totals
+    $totalBaseSalary = $employees->sum('base_salary');
+    $totalBonus = $employees->sum('bonus');
+    $totalDeduction = $employees->sum('deduction');
+    $totalNetSalary = $employees->sum('net_salary');
+
+    $data = [
+        'employees' => $employees,
+        'totals' => [
+            'base_salary' => $totalBaseSalary,
+            'bonus' => $totalBonus,
+            'deduction' => $totalDeduction,
+            'net_salary' => $totalNetSalary
+        ],
+        'date' => now()->format('F Y'),
+        'company' => [
+            'name' => config('app.name'),
+            'address' => "123 Business Rd, City, Country",
+            'contact' => "contact@company.com | (123) 456-7890"
+        ]
+    ];
+
+    $pdf = Pdf::loadView('reports.monthly-salary', $data)
+              ->setPaper('a4', 'landscape');
+
+    $filename = 'Monthly_Salary_Report_' . now()->format('F_Y') . '.pdf';
+    $path = storage_path('app/public/' . $filename);
+    file_put_contents($path, $pdf->output());
+
+    return response()->download($path)->deleteFileAfterSend();
+}
 
 
     protected function loadLeaveData()
