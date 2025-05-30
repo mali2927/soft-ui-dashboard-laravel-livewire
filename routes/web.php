@@ -104,4 +104,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/create', AllocationCreate::class)->name('create');
         Route::get('/{allocation}/edit', AllocationEdit::class)->name('edit');
     });
+     Route::get('/salary-adjustments', \App\Http\Livewire\SalaryAdjustment\Index::class)->name('salary-adjustments.index');
+    Route::get('/salary-adjustments/create', \App\Http\Livewire\SalaryAdjustment\Create::class)->name('salary-adjustments.create');
+    Route::get('/salary-adjustments/{adjustment}', \App\Http\Livewire\SalaryAdjustment\Show::class)->name('salary-adjustments.show');
+    Route::get('/salary-adjustments/{adjustment}/edit', \App\Http\Livewire\SalaryAdjustment\Edit::class)->name('salary-adjustments.edit');
+    Route::get('/salary-adjustments/{adjustment}/delete', \App\Http\Livewire\SalaryAdjustment\Delete::class)->name('salary-adjustments.delete');
 });

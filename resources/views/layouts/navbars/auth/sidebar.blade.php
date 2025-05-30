@@ -174,6 +174,17 @@
                     <span class="nav-link-text ms-1">Employee Salaries</span>
                 </a>
             </li>
+            <li class="nav-item pb-2">
+                <a class="nav-link {{ request()->routeIs('salary-adjustments.*') ? 'active' : '' }}"
+                    href="{{ route('salary-adjustments.index') }}">
+                    <div
+                        class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i
+                            class="fas fa-money-bill-wave {{ request()->routeIs('salary-adjustments.*') ? 'text-white' : 'text-dark' }}"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Salary Adjustments</span>
+                </a>
+            </li>
 
         </ul>
     </div>
