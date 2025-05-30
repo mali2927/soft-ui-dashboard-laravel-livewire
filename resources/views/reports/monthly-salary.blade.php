@@ -37,6 +37,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            font-size: 12px;
         }
 
         th,
@@ -62,6 +63,15 @@
         .page-break {
             page-break-after: always;
         }
+
+        .deduction-details {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .leave-details {
+            font-style: italic;
+        }
     </style>
 </head>
 
@@ -82,7 +92,7 @@
                 <th>Name</th>
                 <th class="text-right">Base Salary</th>
                 <th class="text-right">Bonus</th>
-                <th class="text-right">Deductions</th>
+                <th class="text-right">Total Deductions</th>
                 <th class="text-right">Net Salary</th>
             </tr>
         </thead>
@@ -93,7 +103,21 @@
                     <td>{{ $item['employee']->name }}</td>
                     <td class="text-right">PKR {{ number_format($item['base_salary'], 2) }}</td>
                     <td class="text-right">PKR {{ number_format($item['bonus'], 2) }}</td>
-                    <td class="text-right">PKR {{ number_format($item['deduction'], 2) }}</td>
+                    <td class="text-right">
+                        PKR {{ number_format($item['deduction'], 2) }}
+                        @if ($item['leave_deduction'] > 0 || $item['other_deduction'] > 0)
+                            <div class="deduction-details">
+                                @if ($item['leave_deduction'] > 0)
+                                    <span class="leave-details">(Leave: PKR
+                                        {{ number_format($item['leave_deduction'], 2) }} for
+                                        {{ $item['excess_leaves'] }} days)</span>
+                                @endif
+                                @if ($item['other_deduction'] > 0)
+                                    <span>, Other: PKR {{ number_format($item['other_deduction'], 2) }}</span>
+                                @endif
+                            </div>
+                        @endif
+                    </td>
                     <td class="text-right">PKR {{ number_format($item['net_salary'], 2) }}</td>
                 </tr>
             @endforeach
@@ -101,7 +125,18 @@
                 <td colspan="2">TOTAL</td>
                 <td class="text-right">PKR {{ number_format($totals['base_salary'], 2) }}</td>
                 <td class="text-right">PKR {{ number_format($totals['bonus'], 2) }}</td>
-                <td class="text-right">PKR {{ number_format($totals['deduction'], 2) }}</td>
+                <td class="text-right">
+                    PKR {{ number_format($totals['deduction'], 2) }}
+                    <div class="deduction-details">
+                        @if ($totals['leave_deduction'] > 0)
+                            <span class="leave-details">(Leave: PKR {{ number_format($totals['leave_deduction'], 2) }}
+                                for {{ $totals['excess_leaves'] }} days)</span>
+                        @endif
+                        @if ($totals['other_deduction'] > 0)
+                            <span>, Other: PKR {{ number_format($totals['other_deduction'], 2) }}</span>
+                        @endif
+                    </div>
+                </td>
                 <td class="text-right">PKR {{ number_format($totals['net_salary'], 2) }}</td>
             </tr>
         </tbody>
