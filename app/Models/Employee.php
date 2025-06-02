@@ -44,6 +44,10 @@ class Employee extends Model
     {
         return $this->hasMany(LeaveRequest::class);
     }
+    public function scopeActive($query)
+    {
+        return $query->where('employment_status', 'active'); // Adjust based on your status field
+    }
 
     public function leaveBalances()
     {

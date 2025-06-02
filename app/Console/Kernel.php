@@ -30,6 +30,8 @@ class Kernel extends ConsoleKernel
         if (env('IS_DEMO')) {
             $schedule->command('migrate:fresh --seed')->cron($scheduledInterval);
         }
+             $schedule->command('absences:check')->dailyAt('23:00');  // Runs once per day at 11 PM
+
     }
 
     /**
