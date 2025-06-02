@@ -51,7 +51,7 @@ class Dashboard extends Component
             'date' => now()->format('F Y'),
             'company' => [
                 'name' => config('app.name'),
-                'address' => "123 Business Rd, City, Country",
+                'address' => "Rawalpindi Pakistan",
                 'contact' => "contact@company.com | (123) 456-7890"
             ]
         ];
@@ -132,7 +132,7 @@ class Dashboard extends Component
             'date' => now()->format('F Y'),
             'company' => [
                 'name' => config('app.name'),
-                'address' => "123 Business Rd, City, Country",
+                'address' => "Rawalpindi Pakistan",
                 'contact' => "contact@company.com | (123) 456-7890"
             ]
         ];
