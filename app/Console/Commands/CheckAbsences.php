@@ -8,6 +8,8 @@ use App\Models\Authentication;
 use App\Models\SalaryAdjustment;
 use App\Models\LeaveBalance;
 use Carbon\Carbon;
+use App\Models\PublicHoliday;
+
 
 class CheckAbsences extends Command
 {
@@ -41,7 +43,21 @@ class CheckAbsences extends Command
 
 protected function checkEmployeeAbsence($employee, $shift, $date)
 {
-    // Check if employee has any authentication for this date
+    // ✅ Skip if it's a public holiday (including recurring holidays)
+    $isPublicHoliday = PublicHoliday::where(function($query) use ($date) {
+        $query->whereDate('date', $date)
+              ->orWhere(function ($q) use ($date) {
+                  $q->where('is_recurring', true)
+                    ->whereDay('date', $date->day)
+                    ->whereMonth('date', $date->month);
+              });
+    })->exists();
+
+    if ($isPublicHoliday) {
+        return; // Skip attendance check
+    }
+
+    // ✅ Check if employee has authentication (present)
     $hasAuthentication = Authentication::where('emp_id', $employee->id)
         ->whereDate('authentication_date', $date)
         ->exists();
@@ -49,13 +65,20 @@ protected function checkEmployeeAbsence($employee, $shift, $date)
     if (!$hasAuthentication) {
         // First try to deduct from leave balance
         $leaveDeducted = $this->updateLeaveBalance($employee, $date);
-        
+
         // Only deduct salary if no leaves were available
         if (!$leaveDeducted) {
-            $this->createAbsenceAdjustment($employee, $date);
+            SalaryAdjustment::create([
+                'employee_id' => $employee->id,
+                'effective_date' => $date,
+                'created_by' => 1,
+                'amount' => -($employee->daily_salary ?? 0), // or however you handle salary
+                'reason' => 'Absence on ' . $date->toDateString(),
+            ]);
         }
     }
 }
+
 
 protected function createAbsenceAdjustment($employee, $date)
 {
