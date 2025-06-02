@@ -142,6 +142,18 @@
                 </a>
             </li>
             <li class="nav-item pb-2">
+                <a class="nav-link {{ request()->routeIs('public-holidays.*') ? 'active' : '' }}"
+                    href="{{ route('public-holidays.index') }}">
+                    <div
+                        class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i
+                            class="fas fa-calendar-day {{ request()->routeIs('public-holidays.*') ? 'text-white' : 'text-dark' }}"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Public Holiday</span>
+                </a>
+            </li>
+
+            <li class="nav-item pb-2">
                 <a class="nav-link {{ request()->routeIs('authentications.*') ? 'active' : '' }}"
                     href="{{ route('authentications.index') }}">
                     <div

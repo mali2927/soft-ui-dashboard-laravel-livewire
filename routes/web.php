@@ -109,4 +109,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/salary-adjustments/{adjustment}', \App\Http\Livewire\SalaryAdjustment\Show::class)->name('salary-adjustments.show');
     Route::get('/salary-adjustments/{adjustment}/edit', \App\Http\Livewire\SalaryAdjustment\Edit::class)->name('salary-adjustments.edit');
     Route::get('/salary-adjustments/{adjustment}/delete', \App\Http\Livewire\SalaryAdjustment\Delete::class)->name('salary-adjustments.delete');
+    Route::get('/public-holidays', \App\Http\Livewire\PublicHolidayCrud::class)->name('public-holidays.index');
+
 });
