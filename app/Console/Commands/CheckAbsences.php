@@ -37,21 +37,25 @@ class CheckAbsences extends Command
         $this->info('Absence check completed successfully.');
     }
 
-    protected function checkEmployeeAbsence($employee, $shift, $date)
-    {
-        // Check if employee has any authentication for this date
-        $hasAuthentication = Authentication::where('emp_id', $employee->id)
-            ->whereDate('authentication_date', $date)
-            ->exists();
+ 
 
-        if (!$hasAuthentication) {
-            // Employee is absent - create salary adjustment
+protected function checkEmployeeAbsence($employee, $shift, $date)
+{
+    // Check if employee has any authentication for this date
+    $hasAuthentication = Authentication::where('emp_id', $employee->id)
+        ->whereDate('authentication_date', $date)
+        ->exists();
+
+    if (!$hasAuthentication) {
+        // First try to deduct from leave balance
+        $leaveDeducted = $this->updateLeaveBalance($employee, $date);
+        
+        // Only deduct salary if no leaves were available
+        if (!$leaveDeducted) {
             $this->createAbsenceAdjustment($employee, $date);
-            
-            // Deduct from leave balance if available
-            $this->updateLeaveBalance($employee, $date);
         }
     }
+}
 
 protected function createAbsenceAdjustment($employee, $date)
 {
@@ -62,33 +66,51 @@ protected function createAbsenceAdjustment($employee, $date)
         ->exists();
 
     if (!$exists) {
-        // Calculate daily rate (basic_salary / 30)
         $dailyRate = $employee->base_salary / 30;
         
+        $adjustment = SalaryAdjustment::create([
+            'employee_id' => $employee->id,
+            'type' => 'absence',
+            'amount' => -$dailyRate,
+            'reason' => 'Salary deduction for absence on ' . $date->format('Y-m-d') . ' (No available leaves)',
+            'effective_date' => $date,
+            'created_by' => 1
+        ]);
+        
+        $this->info("Created salary deduction of ".number_format($dailyRate, 2)." for employee {$employee->id}");
+        return true;
+    }
+    return false;
+}
+
+protected function updateLeaveBalance($employee, $date)
+{
+    // Get all eligible leave balances (prioritize certain types if needed)
+    $leaveBalance = LeaveBalance::where('employee_id', $employee->id)
+        ->where('year', $date->year)
+        ->where('remaining', '>', 0)
+        ->orderBy('leave_type_id') // Optional: prioritize specific leave types
+        ->first();
+
+    if ($leaveBalance) {
+        $leaveBalance->increment('used');
+        $leaveBalance->decrement('remaining');
+        $leaveBalance->save();
+        
+        // Create a record of leave usage
         SalaryAdjustment::create([
             'employee_id' => $employee->id,
             'type' => 'absence',
-            'amount' => -$dailyRate, // Negative value for deduction
-            'reason' => 'Automatic absence deduction for ' . $date->format('Y-m-d'),
+            'amount' => 0, // Or negative if you want to track leave "cost"
+            'reason' => 'Used leave for absence on ' . $date->format('Y-m-d'),
             'effective_date' => $date,
-            'created_by' => 1 // System user
+            'created_by' => 1
         ]);
         
-        $this->info("Created absence deduction of ".number_format($dailyRate, 2)." for employee {$employee->id}");
+        $this->info("Deducted 1 leave from employee {$employee->id}'s balance");
+        return true;
     }
+    
+    return false;
 }
-    protected function updateLeaveBalance($employee, $date)
-    {
-        // Find annual leave balance for current year
-        $leaveBalance = LeaveBalance::where('employee_id', $employee->id)
-            //->where('leave_type_id', 1) // Assuming 1 is annual leave
-            ->where('year', $date->year)
-            ->first();
-
-        if ($leaveBalance && $leaveBalance->remaining > 0) {
-            $leaveBalance->increment('used');
-            $leaveBalance->decrement('remaining');
-            $leaveBalance->save();
-        }
-    }
 }
