@@ -6,7 +6,7 @@
         </div>
 
         <div class="card-body p-4">
-            <form wire:submit.prevent="{{ isset($shiftId) ? 'update' : 'store' }}">
+            <form wire:submit.prevent="{{ isset($shiftId) ? 'update' : 'save' }}">
                 <!-- Shift Basic Information -->
                 <div class="row mb-4 g-3">
                     <div class="col-md-6">
