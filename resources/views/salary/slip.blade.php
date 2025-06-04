@@ -74,7 +74,7 @@
 
 <body>
     <div class="header">
-        <div class="company-name">Your Company Name</div>
+        <div class="company-name">AQ Bakers & Sweets</div>
         <div class="document-title">Salary Slip for {{ $date }}</div>
     </div>
 
